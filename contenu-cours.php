@@ -6,18 +6,26 @@
 
 <?php require_once __DIR__ . '/pdo/dsn.php';?>
 
-<h2>Introduction</h2>
+<?php
+$queryNomCours = "SELECT nom from cours where id=" . $_GET['id'];
+$stmt = $pdo->query($queryNomCours);
+?>
+<?php
+while ($nomCours = $stmt->fetch(PDO::FETCH_ASSOC)) {
+?>
+<h2><?php echo $nomCours['nom'];?></h2>
+<?php
+}
+?>
 
 <?php
-$queryChapter = "SELECT id,titre from chapitre";
+$queryChapter = "SELECT id,titre,cours_id from chapitre where cours_id=" . $_GET['id'];
 $stmt = $pdo->query($queryChapter);
-$chapters = $stmt->fetchAll();
 ?>
-
 <?php 
-foreach ($chapters as $chapter) {
+while ($row = $stmt->fetch()) {
 ?>
-<p><a href="contenu-cours.php?id=<?php echo $chapter ['id'];?>"><?php echo $chapter ['titre']; ?></a></p>
+<p><a href="contenu-cours.php?id=<?php echo $row['cours_id'];?>&cours_id=<?php echo $row['id']?>"><?php echo $row ['titre'];?></a></p>
 <?php
 }
 ?>
@@ -26,11 +34,11 @@ foreach ($chapters as $chapter) {
             <div class="col-lg-7 col-md-7">
             
 <?php
-$queryContent = "SELECT * FROM chapitre";
+$queryContent = "SELECT id,cours_id,contenu FROM chapitre WHERE id=". $_GET['cours_id'];
 $stmt = $pdo->query($queryContent);
-$contents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$contents = $stmt->fetch();
 ?>
-<p><?php echo $contents[$_GET['id']-1]['contenu'];?></p>
+<p><?php echo $contents['contenu'];?></p>
 
             </div>
 

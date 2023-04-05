@@ -3,7 +3,7 @@
 <div class="container">
         <div class="row align-items-start">
             <div class="col-lg-3 col-md-3">
-            <h2>Bienvenue</h2>
+            <h1>Bienvenue</h1>
             <?php require_once __DIR__. '/layout/menu-cours.php'?>
             </div>
 

@@ -6,16 +6,26 @@
 
 <?php require_once __DIR__ . '/pdo/dsn.php';?>
 
-<h2>Introduction</h2>
+<?php
+$queryNomCours = "SELECT nom from cours where id=" . $_GET['id'];
+$stmt = $pdo->query($queryNomCours);
+?>
+<?php
+while ($nomCours = $stmt->fetch(PDO::FETCH_ASSOC)) {
+?>
+<h2><?php echo $nomCours['nom'];?></h2>
+<?php
+}
+?>
 
 <?php
-$queryChapter = "SELECT id,titre from chapitre";
+$queryChapter = "SELECT id,titre,cours_id from chapitre where cours_id=" . $_GET['id'];
 $stmt = $pdo->query($queryChapter);
 ?>
 <?php 
 while ($row = $stmt->fetch()) {
 ?>
-<p><a href="contenu-cours.php?id=<?php echo $row['id'];?>"><?php echo $row ['titre']; ?></a></p>
+<p><a href="contenu-cours.php?id=<?php echo $row['cours_id'];?>&cours_id=<?php echo $row['id']?>"><?php echo $row ['titre'];?></a></p>
 <?php
 }
 ?>
